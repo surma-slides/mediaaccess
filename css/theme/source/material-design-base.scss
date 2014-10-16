@@ -1,0 +1,52 @@
+@import "../../../bower_components/quantum-colors/_quantum-colors";
+
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900|Roboto+Condensed:400,300,700|Roboto+Slab:400,100,300,700);
+
+// Base settings for all themes that can optionally be
+// overridden by the super-theme
+
+// Background of the presentation
+$backgroundColor: $white !default;
+
+// Primary/body text
+$mainFont: 'Roboto', sans-serif;
+$mainFontSize: 36px;
+$mainColor: $grey-900 !default;
+
+// Headings
+$headingMargin: 0 0 20px 0;
+$headingFont: 'Roboto Condensed', sans-serif;
+$headingColor: $grey-900 !default;
+$headingLineHeight: 0.9em;
+$headingLetterSpacing: 0.02em;
+$headingTextTransform: uppercase;
+$headingTextShadow: 0px 0px 6px opacify($grey-400,0.2);
+$heading1TextShadow: $headingTextShadow;
+
+// Links and actions
+$linkColor: $indigo-500 !default;
+$linkColorHover: $indigo-400 !default;
+
+// Text selection
+$selectionBackgroundColor: $pink-500 !default;
+$selectionColor: $white !default;
+
+// Generates the presentation background, can be overridden
+// to return a background image or gradient
+@mixin bodyBackground() {
+	background: $backgroundColor;
+}
+
+// Theme template ------------------------------
+@import "../template/theme";
+// ---------------------------------------------
+
+.reveal {
+	font-weight: 300;
+	h1, h2, h3, h4, h5, h6 {
+		font-weight: 400;
+	}
+	h1 {
+		font-weight: 700;
+	}
+}
