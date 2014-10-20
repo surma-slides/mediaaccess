@@ -1,0 +1,29 @@
+pre > code {
+	color: rgba(255, 255, 255, 0.6) !important;
+}
+pre > code > em {
+	font-style: normal !important;
+	color: rgba(255, 255, 255, 1.0) !important;
+}
+
+pre > code[data-hint]:after {
+	display: block;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	font-family: "Roboto Condensed";
+	font-weight: 300;
+	color: rgba(255, 255, 255, 0.3) !important;
+	font-size: 2em;
+	padding-bottom: 0.5em;
+	padding-right: 0.5em;
+	content: attr(data-hint);
+}
+
+figcaption {
+	text-align: right;
+	font-size: 0.7em !important;
+}
+figcaption a {
+	font-size: inherit !important;
+}
