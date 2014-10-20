@@ -1,7 +1,10 @@
 pre > code {
+	color: rgba(255, 255, 255, 1.0) !important;
+}
+pre > code.highlighted {
 	color: rgba(255, 255, 255, 0.6) !important;
 }
-pre > code > em {
+pre > code.highlighted > em {
 	font-style: normal !important;
 	color: rgba(255, 255, 255, 1.0) !important;
 }

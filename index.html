@@ -274,11 +274,11 @@ scheme     authority       path        query   fragment
             <h3>Usage</h3>
             <p>
               Individual resource (server-side implementation)
-              <pre><code>
+              <pre><code class="highlighted">
 http://yt.com/FL3MqSKLNHY<em>?t=20,30&xywh=160,120,320,240</em>
               </code></pre>
               Modifier on a resource (client-side implementation)
-              <pre><code>
+              <pre><code class="highlighted">
 http://yt.com/FL3MqSKLNHY<em>#t=20,30&xywh=160,120,320,240</em>
               </code></pre>
             </p>
@@ -300,13 +300,13 @@ http://yt.com/FL3MqSKLNHY<em>#t=20,30&xywh=160,120,320,240</em>
           <section data-state="subtheme-green">
             <h2>Media Fragments URI</h2>
             <h3>Augmented HTTP Range Header</h3>
-            <pre><code data-hint="Request">
+            <pre><code data-hint="Request" class="highlighted">
 GET /video.ogv HTTP/1.1
 Host: www.example.com
 Accept: video/*
 <em>Range: t:npt=10-20</em>
             </code></pre>
-            <pre><code data-hint="Response">
+            <pre><code data-hint="Response" class="highlighted">
 HTTP/1.1 206 Partial Content
 Accept-Ranges: bytes, t, id
 Content-Length: 3743
@@ -325,13 +325,13 @@ Etag: "b7a60-21f7111-46f3219476580"
          <section data-state="subtheme-green">
             <h2>Media Fragments URI</h2>
             <h3>Augmented HTTP Range Header</h3>
-            <pre><code data-hint="Request">
+            <pre><code data-hint="Request" class="highlighted">
 GET /video.ogv HTTP/1.1
 Host: www.example.com
 Accept: video/*
 Range: t:npt=10-20<em>;include-setup</em>
             </code></pre>
-            <pre><code data-hint="Response">
+            <pre><code data-hint="Response" class="highlighted">
 HTTP/1.1 206 Partial Content
 Accept-Ranges: bytes, t
 Content-Length: 804020
