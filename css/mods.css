@@ -30,3 +30,9 @@ figcaption {
 figcaption a {
 	font-size: inherit !important;
 }
+
+img {
+	border: 0 !important;
+	background: none !important;
+	box-shadow: none !important;
+}
