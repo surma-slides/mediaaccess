@@ -45,8 +45,6 @@
 			<div class="slides">
 				<section>
 					<h1>Media Access</h1>
-					<h3>We need more use-cases</h3>
-					<h3>for EmScripten</h3>
           <p>
             <small>by <a href="http://twitter.com/surmair" target="_blank">Alexander “Surma” Surma</a>, October 2014</small>
           </p>
@@ -63,15 +61,17 @@
 					</p>
 
 					<aside class="notes">
+            Media is video, audio, webpages, anything.
 						2 completed standards (+ Ontology), 1 working candidate, 8 drafts.
-						Use-cases et al. not included. Media is video, audio, webpages, anything.
+						Use-cases et al. not included.
+            Different sizes, extensions and a lot of overlap.
 					</aside>
 				</section>
 				<section>
 					<section data-state="subtheme-indigo">
 						<h2>Buzzwords!</h2>
 						<p>
-							Who has heared of <code>getUserMedia()</code> or <code>Web Audio API</code>?
+							Who has <em>not</em> heared of <code>getUserMedia()</code> or <code>Web Audio API</code>?
 						</p>
 						<aside class="notes">
 							Arguably the most hyped and well known standards out of the media access collection.
@@ -84,6 +84,7 @@
               February 3, 2013
             </p>
             <aside class="notes">
+              WebRTC = Web Real-Time Communication. A lot of synergy and mutual motivation.
             </aside>
           </section>
           <section data-state="subtheme-indigo">
@@ -93,6 +94,7 @@
               October 9, 2014
             </p>
             <aside class="notes">
+              Jan Moschke. Extensive User of WebAPI. Collaborative music editor with WebRTC. DevFest 2013 & 2014.
             </aside>
           </section>
 					<section data-state="subtheme-indigo">
@@ -127,7 +129,7 @@
 							});
 						</script>
 						<aside class="notes">
-              Access to devices, individual frames, etc
+              No flash! We have acces to stream, frames, audio etc. Details later. Lots of potential.
 						</aside>
 					</section>
 
@@ -191,12 +193,11 @@
               <img src="assets/mediafragment.jpg">
             </p>
             <aside class="notes">
-              Lets start with dimensions.
             </aside>
           </section>
           <section data-state="subtheme-green">
             <h2>Media Fragments URI</h2>
-            <h4>Dimensios</h4>
+            <h4>Dimensions</h4>
             <ul>
               <li>Spatial</li>
               <li>Temporal</li>
@@ -204,7 +205,9 @@
               <li>ID</li>
             </ul>
             <aside class="notes">
-              ID is a a convenience layer for temporal dimension
+              ID is a a convenience layer for temporal dimension.
+              Let’s start with the raw syntax. Where to apply it will
+              be covered later.
             </aside>
           </section>
           <section data-state="subtheme-green">
@@ -249,7 +252,7 @@ xywh=percent:25,25,50,50
               Both temporal and spatial fragmentation have exact definition how to validate and calculate the fragmented media. Where to apply the syntax? Let's talk about URIs.
             </aside>
           </section>
-          <section data-state="subtheme-amber">
+          <section data-state="subtheme-teal">
             <h2>URI</h2>
             <h3>Intermezzo</h3>
             <p>
@@ -283,8 +286,8 @@ http://yt.com/FL3MqSKLNHY<em>#t=20,30&xywh=160,120,320,240</em>
               </code></pre>
             </p>
             <aside class="notes">
-              Semantics! Technically no relation between fragmented version and original verison with server-side implementation.
-              Standard defines how to validate and calculate fragment descriptions.
+              Semantics! Technically no relation with server-side implementation. Reencoding.
+              Standard defines how to validate and calculate fragment descriptions. video-Tag supports temporal only.
               How is server side implemented? How is client side implemented?
             </aside>
           </section>
@@ -293,7 +296,8 @@ http://yt.com/FL3MqSKLNHY<em>#t=20,30&xywh=160,120,320,240</em>
             <h3>Resolution</h3>
             <img src="assets/mediafragmentresolution.png">
             <aside class="notes">
-              When cached: easy. When not cached: Range request. Can the UA solve fragment2byte-range problem?
+              Original picture from the standard. Ugly. No SVG. I was fed up.
+              Summary! When cached: easy. When not cached: Range request. Can the UA solve fragment2byte-range problem?
               When not: Special header or query.
             </aside>
           </section>
@@ -473,22 +477,104 @@ metadataSources[1] = new MetadataSource(
           </section>
         </section>
         <section>
-          <section data-state="subtheme-pink">
+          <section data-state="subtheme-red">
             <h2>Media Capture and Streams</h2>
             <p>
               Access to multimedia streams from local devices
             </p>
             <aside class="notes">
+              Danger Zone! Draft!
               Typically, but not limited to, audio, video or both.
             </aside>
           </section>
-        </section>
+          <section data-state="subtheme-red">
+            <h2>Media Capture and Streams</h2>
+            <img src="assets/mediastreamarchitecture.png">
+            <aside class="notes">
+              MediaTracks of a stream are synced.
+            </aside>
+          </section>
+          <section data-state="subtheme-teal">
+            <h2>WEBIDL</h2>
+            <h3>Intermezzo</h3>
+            <aside class="notes">
+              Web Interface Definition Language. Self-explanatory.
+              The Irony of an untyped langauge.
+            </aside>
+          </section>
+          <section data-state="subtheme-red">
+            <h2>Media Capture and Streams</h2>
+            <pre><code data-hint="WEBIDL">
+interface MediaStream : EventTarget {
+    sequence&lt;MediaStreamTrack&gt; getAudioTracks ();
+    sequence&lt;MediaStreamTrack&gt; getVideoTracks ();
+    MediaStreamTrack?          getTrackById (DOMString trackId);
+    void                       addTrack (MediaStreamTrack track);
+    void                       removeTrack (MediaStreamTrack track);
+    MediaStream                clone ();
 
-<!-- ====================================================================================================== -->
-          <section data-state="subtheme-pink">
-            <h2><code>getUserMedia()</code></h2>
+    readonly    attribute DOMString    id;
+    readonly    attribute boolean      ended;
+                attribute EventHandler onended;
+                attribute EventHandler onaddtrack;
+                attribute EventHandler onremovetrack;
+};
+            </code></pre>
+            <aside class="notes">
+              clone() -> independent consumption, allows pipelines
+            </aside>
+          </section>
+          <section data-state="subtheme-red">
+            <h2>Media Capture and Streams</h2>
+            <pre><code data-hint="WEBIDL">
+[Constructor,
+  Constructor (MediaStream stream),
+  Constructor (MediaStreamTrackSequence tracks)]
+            </code></pre>
+            <aside class="notes">
+              Repackaging. Act as a source. Consider WebRTC.
+            </aside>
+          </section>
+          <section data-state="subtheme-red">
+            <h2>Media Capture and Streams</h2>
+            <pre><code data-hint="WEBIDL">
+interface NavigatorUserMedia {
+    void getUserMedia (
+      MediaStreamConstraints? constraints,
+      NavigatorUserMediaSuccessCallback successCallback,
+      NavigatorUserMediaErrorCallback errorCallback
+    );
+};
+            </code></pre>
+            <aside class="notes">
+              Under discussion!
+            </aside>
+          </section>
+          <section data-state="subtheme-red">
+            <h2>Media Capture and Streams</h2>
+            <pre><code data-hint="JS" class="highlighted">
+{
+  <em>mandatory</em>: {
+    width: { min: 640 },
+    height: { min: 480 }
+  },
+  <em>optional</em>: [
+    { width: 650 },
+    { width: { min: 650 }},
+    { frameRate: 60 },
+    { width: { max: 800 }},
+    { facingMode: "user" }
+  ]
+}
+            </code></pre>
+            <aside class="notes">
+              Under discussion!
+            </aside>
+          </section>
+          <section data-state="subtheme-red">
+            <h2>Media Capture and Streams</h2>
             <p>
-              <pre><code data-trim>
+              <pre><code data-hint="JS">
 navigator.getUserMedia = (
   navigator.getUserMedia ||
   navigator.webkitGetUserMedia ||
@@ -501,10 +587,10 @@ navigator.getUserMedia = (
               The usual cross-browser trickery
             </aside>
           </section>
-          <section data-state="subtheme-pink">
-            <h2><code>getUserMedia()</code></h2>
+          <section data-state="subtheme-red">
+            <h2>Media Capture and Streams</h2>
             <p>
-              <pre><code data-trim>
+              <pre><code data-hint="JS">
 navigator.getUserMedia({
   video: true,
   audio: false
@@ -524,30 +610,237 @@ function(err) {
               </code></pre>
             </p>
             <aside class="notes">
-              1st parameter: Constraing object, 2nd/3rd: success/fail callback
+              This is the demo code.
             </aside>
           </section>
-          <section data-state="subtheme-pink">
-            <h2><code>Web Audio API</code></h2>
-            <p>
-              <pre><code data-trim>
-var context = new webkitAudioContext();
-var oscillator = context.createOscillator();
-oscillator.connect(context.destination);
-oscillator.noteOn(0);
-              </code></pre>
-            </p>
+          <section data-state="subtheme-red">
+            <h2>Media Capture and Streams</h2>
+            <h3>Support</h3>
+            <img src="assets/mediastreamsupport.png">
+          </section>
+        </section>
+        <section>
+          <section data-state="subtheme-red">
+            <h2>Media Recording</h2>
+            <pre><code data-hint="WEBIDL">
+[Constructor (MediaStream stream)]
+interface MediaRecorder : EventTarget {
+    readonly attribute MediaStream        stream;
+    readonly attribute RecordingStateEnum state;
+    void              record (optional long? timeslice);
+    void              stop ();
+    void              pause ();
+    void              resume ();
+
+    attribute EventHandler       ondataavailable;
+    // ...
+    // It’s a huge interface
+    // ...
+};
+            </code></pre>
+            <aside class="notes">
+              Encodes into container/muxing (webm, maybe others). Returns blob (as in HTML5 blob).
+            </aside>
+          </section>
+          <section data-state="subtheme-red">
+            <h2>Media Recording</h2>
+            <h3>Support</h3>
+            Nope
+          </section>
+        </section>
+        <section>
+          <section data-state="subtheme-red">
+            <h2>Image Capture</h2>
+            <pre><code data-hint="WEBIDL">
+[Constructor(VideoStreamTrack track)]
+interface ImageCapture : EventTarget {
+    readonly    attribute PhotoSettingsOptions photoSettingsOptions;
+    readonly    attribute VideoStreamTrack     videoStreamTrack;
+                attribute EventHandler         onphoto;
+                attribute EventHandler         onerror;
+                attribute EventHandler         onphotosettingschange;
+                attribute EventHandler         onframegrab;
+    void setOptions (PhotoSettings? photoSettings);
+    void takePhoto ();
+    void getFrame ();
+};
+            </code></pre>
+            <aside class="notes">
+              FrameGrab -> Return RGBA Canvas Thingy. Photo -> Apply settings (restart?), filters and return blob.
+            </aside>
+          </section>
+          <section data-state="subtheme-red">
+            <h2>Image Capture</h2>
+            <h3>Support</h3>
+            <img src="assets/imagecapturesupport.png">
+          </section>
+        </section>
+        <section>
+          <section data-state="subtheme-red">
+            <h2>Depth Stream</h2>
+            <img src="assets/mediadepthstream.jpg">
+          </section>
+          <section data-state="subtheme-red">
+            <h2>Depth Stream</h2>
+            <pre><code data-hint="WEBIDL" class="highlighted">
+<em>partial</em> dictionary MediaStreamConstraints {
+    (boolean or MediaTrackConstraints) depth = false;
+};            </code></pre>
+            <pre><code data-hint="WEBIDL" class="highlighted">
+<em>partial</em> interface MediaStream {
+    sequence<MediaStreamTrack> getDepthTracks ();
+};
+            </code></pre>
+          </section>
+          <section data-state="subtheme-red">
+            <h2>Depth Stream</h2>
+            <h3>Support</h3>
+            Nope
+            <aside class="notes">
+              Attention! Most depth-cameras (like Kinect) identify as normal
+              cameras with b/w image stream.
+            </aside>
+          </section>
+        </section>
+        <section>
+          <section data-state="subtheme-red">
+            <h2>Web Audio API</h2>
+            <h3>Goals</h3>
+            <ul>
+              <li>Processing</li>
+              <li>Synthesizing</li>
+              <li>Audio Routing Graph Paradigm</li>
+              <li>Sample-accurate sound playback with low latency</li>
+              <li>LFOs, Envelopes, FFT, biquad filter, ...</li>
+              <li>3D support</li>
+            </ul>
+            <aside class="notes">
+              Think: MaxDSP/PureData. Pretty lon standard, but only because a lot of node types.
+            </aside>
+          </section>
+          <section data-state="subtheme-red">
+            <h2>Web Audio API</h2>
+            <h3>Bird’s view</h3>
+            <figure>
+              <img src="assets/webaudiorouting.png">
+              <figcaption>“the right thing just happens”</figcaption>
+            </figure>
             <aside class="notes">
             </aside>
           </section>
-          <section>
-            <h1>Sources</h1>
-            <ul>
-              <li>http://www.w3.org/TR/2012/REC-media-frags-20120925/</li>
-              <li>http://www.w3.org/TR/2011/WD-media-frags-recipes-20111201/</li>
-              <li>http://ninsuna.elis.ugent.be/MediaFragmentsServer</li>
-            </ul>
+          <section data-state="subtheme-red">
+            <h2>Web Audio API</h2>
+            <h3>Audio Context</h3>
+            <pre><code class="code" data-hint="WEBIDL">
+[Constructor]
+interface AudioContext : EventTarget {
+    readonly attribute AudioDestinationNode destination;
+    readonly attribute AudioListener listener;
+
+    ScriptProcessorNode createScriptProcessor(...);
+
+    AnalyserNode createAnalyser();
+    GainNode createGain();
+    DelayNode createDelay(optional double maxDelayTime = 1.0);
+    BiquadFilterNode createBiquadFilter();
+    // ...
+};
+            </code></pre>
+            <aside class="notes">
+              Creation of new nodes via context because initialization and low-level C++ engine.
+              OfflineAudioContext for fast rendering.
+            </aside>
           </section>
+          <section data-state="subtheme-red">
+            <h2>Web Audio API</h2>
+            <h3>Audio Node</h3>
+            <pre><code data-hint="WEBIDL">
+interface AudioNode : EventTarget {
+    void connect(
+      AudioNode destination,
+      optional unsigned long output = 0,
+      optional unsigned long input = 0
+    );
+    void disconnect(optional unsigned long output = 0);
+
+    readonly attribute AudioContext context;
+    readonly attribute unsigned long numberOfInputs;
+    readonly attribute unsigned long numberOfOutputs;
+
+    attribute unsigned long channelCount;
+    attribute ChannelCountMode channelCountMode;
+    attribute ChannelInterpretation channelInterpretation;
+};
+            </code></pre>
+          </section>
+          <section data-state="subtheme-red">
+            <h2>Web Audio API</h2>
+            <h3>Audio Listener</h3>
+            <pre><code data-hint="WEBIDL">
+interface AudioListener {
+
+    attribute double dopplerFactor;
+    attribute double speedOfSound;
+
+    // Uses a 3D cartesian coordinate system
+    void setPosition(double x, double y, double z);
+    void setOrientation(double x, double y, double z, double xUp, double yUp, double zUp);
+    void setVelocity(double x, double y, double z);
+
+};
+            </code></pre>
+          </section>
+          <section data-state="subtheme-red">
+            <h2>Web Audio API</h2>
+            <h3>Oscillator Node</h3>
+            <pre><code data-hint="WEBIDL">
+interface OscillatorNode : AudioNode {
+
+    attribute OscillatorType type;
+
+    readonly attribute AudioParam frequency; // in Hertz
+    readonly attribute AudioParam detune; // in Cents
+
+    void start(double when);
+    void stop(double when);
+    void setPeriodicWave(PeriodicWave periodicWave);
+};
+            </code></pre>
+            <small>Supports: "sine", "square", "sawtooth", "triangle", "custom"</small>
+            <aside class="notes">
+              Cent = 2^(1/1200)
+            </aside>
+          </section>
+          <section data-state="subtheme-red">
+            <h2>Web Audio API</h2>
+            <h3>Support</h3>
+            <img src="assets/webaudiosupport.png">
+          </section>
+        </section>
+        <section data-state="subtheme-teal">
+          <h1>Sources</h1>
+          <ul>
+            <li>http://www.w3.org/TR/2012/REC-media-frags-20120925/</li>
+            <li>http://www.w3.org/TR/2011/WD-media-frags-recipes-20111201/</li>
+            <li>http://ninsuna.elis.ugent.be/MediaFragmentsServer</li>
+            <li>http://www.w3.org/TR/WebIDL/</li>
+            <li>http://www.w3.org/TR/2013/WD-mediacapture-streams-20130903/</li>
+            <li>http://www.w3.org/TR/2013/WD-mediastream-recording-20130205/</li>
+            <li>http://www.w3.org/TR/2014/WD-mediacapture-depth-20141007/</li>
+            <li>http://www.w3.org/TR/2013/WD-image-capture-20130709/</li>
+            <li>http://www.w3.org/TR/2013/WD-webaudio-20131010/</li>
+          </ul>
+        </section>
+        <section>
+          <h1>Media Access</h1>
+          <p>
+            <small>by <a href="http://twitter.com/surmair" target="_blank">Alexander “Surma” Surma</a>, October 2014</small>
+          </p>
+          <p>
+            <small><a href="http://surma-slides.github.io/mediaaccess">surma-slides.github.io/mediaaccess</a></small>
+          </p>
+        </section>
+
 			</div>
 		</div>
 

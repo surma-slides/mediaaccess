@@ -1,0 +1,13 @@
+@import "../template/mixins";
+@import "../template/settings";
+@import "../../../bower_components/quantum-colors/_quantum-colors";
+
+$backgroundColor: $teal-500;
+$mainColor: $white;
+$headingColor: $white;
+$linkColor: $yellow-500;
+$linkColorHover: $yellow-400;
+$selectionBackgroundColor: $yellow-500;
+$selectionColor: $black;
+
+@import "material-design-base";
