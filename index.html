@@ -164,8 +164,8 @@
 					<h2>Media Access?</h2>
 					<p>
 						<ul>
-							<li>access media files (fragments)</li>
-							<li>access media metadata</li>
+							<li>Completed: access media files (fragments)</li>
+							<li>Completed: access media metadata</li>
 							<li>access A/V devices</li>
 							<li>generate and output audio</li>
 							<li>process and record audio streams</li>
@@ -173,6 +173,8 @@
 						</ul>
 					</p>
 					<aside class="notes">
+            First two are “completed”. Rest is “draft”. Access A/V has one, tiny
+            candidate standard.
 					</aside>
 				</section>
         <section>
@@ -366,7 +368,7 @@ Content-Range: bytes 1264525-2066894/4055466
               </figcaption>
             </figure>
             <aside class="notes">
-              Non-existent. caniuse.com by no means authorative, in this case symbolic.
+              Non-existent. caniuse.com by no means authorative, but yeah.
             </aside>
           </section>
         </section>
@@ -379,7 +381,7 @@ Content-Range: bytes 1264525-2066894/4055466
             <img src="assets/metadataexample.png">
             <aside class="notes">
               Examples of metadata, which currently can’t be read by webapps.
-              Going to keep this short, boring and unusable.
+              Going to keep this short, boring and unusable. Think of PDF, MP4,...
             </aside>
           </section>
           <section data-state="subtheme-green">
@@ -485,13 +487,15 @@ metadataSources[1] = new MetadataSource(
             <aside class="notes">
               Danger Zone! Draft!
               Typically, but not limited to, audio, video or both.
+              Freshly engineered infrastructure for media streams.
             </aside>
           </section>
           <section data-state="subtheme-red">
             <h2>Media Capture and Streams</h2>
             <img src="assets/mediastreamarchitecture.png">
             <aside class="notes">
-              MediaTracks of a stream are synced.
+              This is the design. MediaTracks of a stream are synced.
+              To specify the implementation guidelines, W3C uses WebIDL!
             </aside>
           </section>
           <section data-state="subtheme-teal">
@@ -616,7 +620,10 @@ function(err) {
           <section data-state="subtheme-red">
             <h2>Media Capture and Streams</h2>
             <h3>Support</h3>
-            <img src="assets/mediastreamsupport.png">
+            <figure>
+              <img src="assets/mediastreamsupport.png">
+              <figcaption><a href="http://caniuse.com/#feat=stream">dcaniuse.com/#feat=stream</a></figcaption>
+            </figure>
           </section>
         </section>
         <section>
@@ -679,6 +686,10 @@ interface ImageCapture : EventTarget {
           <section data-state="subtheme-red">
             <h2>Depth Stream</h2>
             <img src="assets/mediadepthstream.jpg">
+            <aside class="notes">
+              Arcane technology. Depth is just pixel data as well, but
+              the technicality of the standard is interesting.
+            </aside>
           </section>
           <section data-state="subtheme-red">
             <h2>Depth Stream</h2>
@@ -715,7 +726,7 @@ interface ImageCapture : EventTarget {
               <li>3D support</li>
             </ul>
             <aside class="notes">
-              Think: MaxDSP/PureData. Pretty lon standard, but only because a lot of node types.
+              Think: MaxDSP/PureData. Pretty long standard, but only because a lot of node types.
             </aside>
           </section>
           <section data-state="subtheme-red">
