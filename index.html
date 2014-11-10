@@ -239,7 +239,7 @@ t=,22:10
             <p>
               Syntax:
               <pre><code>
-xywh=&lt;start&gt;,&lt;end&gt;
+xywh=&lt;x&gt;,&lt;y&gt;,&lt;w&gt;,&lt;h&gt;
               </code></pre>
             </p>
             <p>
@@ -525,7 +525,7 @@ interface MediaStream : EventTarget {
 };
             </code></pre>
             <aside class="notes">
-              clone() -> independent consumption, allows pipelines
+              clone() -> independent consumption, allows pipelines. Cut detector.
             </aside>
           </section>
           <section data-state="subtheme-red">
@@ -622,7 +622,7 @@ function(err) {
             <h3>Support</h3>
             <figure>
               <img src="assets/mediastreamsupport.png">
-              <figcaption><a href="http://caniuse.com/#feat=stream">dcaniuse.com/#feat=stream</a></figcaption>
+              <figcaption><a href="http://caniuse.com/#feat=stream">caniuse.com/#feat=stream</a></figcaption>
             </figure>
           </section>
         </section>
